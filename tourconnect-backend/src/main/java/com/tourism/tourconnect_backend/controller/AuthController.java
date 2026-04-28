@@ -14,9 +14,13 @@ public class AuthController {
 
     // ✅ SEND OTP
     @GetMapping("/send-otp")
-    public String sendOtp(@RequestParam String email) {
-        otpService.generateOtp(email);  // already sends email
-        return "OTP sent successfully";
+    public org.springframework.http.ResponseEntity<String> sendOtp(@RequestParam String email) {
+        try {
+            otpService.generateOtp(email);
+            return org.springframework.http.ResponseEntity.ok("OTP sent successfully to " + email);
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.status(500).body("Error sending email: " + e.getMessage());
+        }
     }
 
     // ✅ VERIFY OTP
