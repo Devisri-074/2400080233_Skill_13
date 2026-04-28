@@ -39,7 +39,16 @@ public class BookingService {
     // ✅ UPDATE STATUS (APPROVE / REJECT)
     public Booking updateStatus(Long id, String status) {
         Booking booking = repository.findById(id).orElseThrow();
-        booking.setStatus(status);
+        // Update the right status field based on value prefix
+        if (status.startsWith("homestay_")) {
+            booking.setHomestayStatus(status.replace("homestay_", ""));
+        } else if (status.startsWith("guide_")) {
+            booking.setGuideStatus(status.replace("guide_", ""));
+        } else {
+            booking.setStatus(status);
+            booking.setHomestayStatus(status);
+            booking.setGuideStatus(status);
+        }
         return repository.save(booking);
     }
 

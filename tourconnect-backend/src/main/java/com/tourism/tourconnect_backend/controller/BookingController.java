@@ -27,6 +27,14 @@ public class BookingController {
         return service.getAll();
     }
 
+    // ✅ GET BOOKINGS FOR USER
+    @GetMapping("/user/{email}")
+    public List<Booking> getUserBookings(@PathVariable String email) {
+        return service.getAll().stream()
+            .filter(b -> email.equalsIgnoreCase(b.getUserEmail()))
+            .collect(java.util.stream.Collectors.toList());
+    }
+
     // ✅ GET BOOKINGS FOR HOST
     @GetMapping("/host/{hostId}")
     public List<Booking> getHostBookings(@PathVariable Long hostId) {
@@ -35,7 +43,10 @@ public class BookingController {
 
     // ✅ UPDATE STATUS
     @PutMapping("/{id}/status")
-    public Booking updateStatus(@PathVariable Long id, @RequestParam String status) {
+    public Booking updateStatus(@PathVariable Long id, @RequestBody java.util.Map<String, String> body) {
+        String status = body.getOrDefault("status", body.getOrDefault("homestayStatus", body.getOrDefault("guideStatus", "pending")));
+        if (body.containsKey("homestayStatus")) status = "homestay_" + body.get("homestayStatus");
+        else if (body.containsKey("guideStatus")) status = "guide_" + body.get("guideStatus");
         return service.updateStatus(id, status);
     }
 

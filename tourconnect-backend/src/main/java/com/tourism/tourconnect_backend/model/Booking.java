@@ -23,7 +23,8 @@ public class Booking {
     private Double guidePrice;
 
     private String status;
-
+    private String homestayStatus;
+    private String guideStatus;
     private Long hostId;
 
     // ✅ GETTERS & SETTERS
@@ -56,6 +57,12 @@ public class Booking {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public String getHomestayStatus() { return homestayStatus; }
+    public void setHomestayStatus(String homestayStatus) { this.homestayStatus = homestayStatus; }
+
+    public String getGuideStatus() { return guideStatus; }
+    public void setGuideStatus(String guideStatus) { this.guideStatus = guideStatus; }
 
     public Long getHostId() { return hostId; }
     public void setHostId(Long hostId) { this.hostId = hostId; }
